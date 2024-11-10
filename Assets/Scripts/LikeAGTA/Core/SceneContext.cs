@@ -1,7 +1,9 @@
-﻿using DI;
+﻿using System;
+using DI;
 using DI.Interfaces;
 using LikeAGTA.Characters;
 using LikeAGTA.Characters.Data;
+using LikeAGTA.Characters.UI;
 using LikeAGTA.Factory;
 using UnityEngine;
 
@@ -9,13 +11,15 @@ namespace LikeAGTA.Core
 {
     public class SceneContext : MonoBehaviour
     {
-        [SerializeField] PlayerDataSO _playerData; //temp
-        [SerializeField] Transform _playerSpawnPosition; //temp
+        [SerializeField] PlayerDataSO _playerData;
+        [SerializeField] HUD _hud;
+       
         void Awake()
         {
             InitializeBindings();
             SpawnInitialCharacters();
-            injectDependencies();
+            Instantiate(_hud);
+            InjectDependencies();
         }
     
         void InitializeBindings()
@@ -26,11 +30,11 @@ namespace LikeAGTA.Core
         void SpawnInitialCharacters()
         {
             ICharacterFactory characterFactory = DIContainer.Instance.Resolve<ICharacterFactory>();
-            Player player = characterFactory.SpawnCharacter(_playerData.Prefab, _playerSpawnPosition.transform.position, Quaternion.identity);
-            DIContainer.Instance.Bind(player);
+            Player player = characterFactory.SpawnCharacter(_playerData.Prefab, _playerData.SpawnPosition,
+                Quaternion.identity, true);
         }
     
-        void injectDependencies()
+        void InjectDependencies()
         {
             foreach (MonoBehaviour monoBehaviour in FindObjectsOfType<MonoBehaviour>(true))
             {

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4b3be785c4b43cf4abab92255e81a5ee
+timeCreated: 1457819689
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 68199
+  packageName: Mountain Race Track - Night
+  packageVersion: 1.0
+  assetPath: Assets/mountain-race-track/Materials/skybox.mat
+  uploadId: 129734

@@ -119,6 +119,9 @@ namespace LikeAGTA.Characters
 
         private void Start()
         {
+            Cursor.lockState = CursorLockMode.Locked; // Lock cursor to the center of the screen
+            Cursor.visible = false;                   // Hide the cursor
+
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
             _hasAnimator = TryGetComponent(out _animator);
@@ -136,17 +139,12 @@ namespace LikeAGTA.Characters
         private void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
-
             JumpAndGravity();
             GroundedCheck();
+            CameraRotation();
             Move();
         }
-
-        private void LateUpdate()
-        {
-            CameraRotation();
-        }
-
+        
         private void AssignAnimationIDs()
         {
             _animIDSpeed = Animator.StringToHash("Speed");
@@ -169,26 +167,29 @@ namespace LikeAGTA.Characters
             }
         }
 
-        void CameraRotation()
+        private void CameraRotation()
         {
-            if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
-            {
-                float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+            if (!(_input.look.sqrMagnitude >= _threshold) || LockCameraPosition)
+                return;
 
-                _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier;
-                _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier;
-            }
-            
+            float rotationSpeedMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+    
+            _cinemachineTargetYaw += _input.look.x * rotationSpeedMultiplier;
+            _cinemachineTargetPitch += _input.look.y * rotationSpeedMultiplier;
+
             _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
             _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
-            
-            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
-                _cinemachineTargetYaw, 0.0f);
+
+            CinemachineCameraTarget.transform.rotation = 
+                Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride, _cinemachineTargetYaw, 0.0f);
+
+            Quaternion targetRotation = Quaternion.Euler(0.0f, _cinemachineTargetYaw, 0.0f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, RotationSmoothTime);
         }
 
         private void Move()
         {
-            float targetSpeed = _input.sprint 
+            float targetSpeed = _playerInput.actions["Sprint"].ReadValue<float>() > 0
                 ? SprintSpeed 
                 : MoveSpeed;
 
@@ -215,21 +216,8 @@ namespace LikeAGTA.Characters
 
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend < 0.01f) _animationBlend = 0f;
-
-            Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
-
-            if (_input.move != Vector2.zero)
-            {
-                _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                                  _mainCamera.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
-                    RotationSmoothTime);
-
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-            }
-
-
-            Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+            
+            Vector3 targetDirection = transform.forward * _input.move.y + transform.right * _input.move.x;
 
             _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                              new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);

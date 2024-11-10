@@ -1,11 +1,18 @@
 {
   "dependencies": {
+    "com.rd.rdtween": {
+      "version": "https://github.com/denisPavlenko7610/RD_Tween.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "eb91fa595019249395364363ddce83a8fcfeeffc"
+    },
     "com.rd.simpledi": {
       "version": "https://github.com/denisPavlenko7610/RD_SimpleDI.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "bd2cf561657271c16159774ba5cc3632f7562f39"
+      "hash": "2e84d0cd5e2060fbb6d740a288249e11a1274ecb"
     },
     "com.rdragon.tools": {
       "version": "https://github.com/denisPavlenko7610/RDTools.git",
@@ -39,12 +46,12 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.behavior": {
-      "version": "1.0.3",
+      "version": "1.0.5",
       "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.burst": "1.7.2",
-        "com.unity.dt.app-ui": "2.0.0-pre.10",
+        "com.unity.dt.app-ui": "2.0.0-pre.11",
         "com.unity.modules.ai": "1.0.0",
         "com.unity.collections": "2.1.4",
         "com.unity.modules.audio": "1.0.0",
@@ -94,7 +101,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.dt.app-ui": {
-      "version": "2.0.0-pre.10",
+      "version": "2.0.0-pre.11",
       "depth": 1,
       "source": "registry",
       "dependencies": {

@@ -6,10 +6,14 @@ namespace LikeAGTA.Factory
 {
     public class CharacterFactory : ICharacterFactory
     {
-        public T SpawnCharacter<T>(T prefab, Vector3 position, Quaternion rotation) where T : Character
+        public T SpawnCharacter<T>(T prefab, Vector3 position, Quaternion rotation, bool useDependencyInjection) where T : Character
         {
-            T characterInstance = DIContainer.Instance.InstantiateAndInject(prefab, position, rotation);
-            return characterInstance;
+            if (useDependencyInjection)
+            {
+                return DIContainer.Instance.InstantiateAndBind(prefab, position, rotation);
+            }
+           
+            return Object.Instantiate(prefab, position, rotation);
         }
     }
 }

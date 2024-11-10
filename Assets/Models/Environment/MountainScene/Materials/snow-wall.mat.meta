@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a80dc89f5883ed84aaf9d93a12b1ae57
+timeCreated: 1452452047
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 68199
+  packageName: Mountain Race Track - Night
+  packageVersion: 1.0
+  assetPath: Assets/mountain-race-track/Materials/snow-wall.mat
+  uploadId: 129734

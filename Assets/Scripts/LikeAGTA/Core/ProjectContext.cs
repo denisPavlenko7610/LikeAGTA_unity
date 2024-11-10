@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using DI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -5,12 +6,25 @@ namespace LikeAGTA.Core
 {
     public class ProjectContext : MonoBehaviour
     {
-        void Awake()
+        async void Awake()
         {
             InitializeBindings();
             DontDestroyOnLoad(gameObject);
 
-            SceneManager.LoadScene(SceneManager.GetSceneByBuildIndex(0).buildIndex + 1);
+            await LoadMainScene();
+        }
+        
+        private async Task LoadMainScene()
+        {
+            AsyncOperation loadEnvironmentTask = SceneManager.LoadSceneAsync("Environment", LoadSceneMode.Additive);
+            AsyncOperation loadPlayerTask = SceneManager.LoadSceneAsync("Player", LoadSceneMode.Additive);
+            
+            while (!loadEnvironmentTask.isDone || !loadPlayerTask.isDone)
+            {
+                await Task.Yield();
+            }
+
+            await SceneManager.UnloadSceneAsync("Bootstrap");
         }
 
         void InitializeBindings()
