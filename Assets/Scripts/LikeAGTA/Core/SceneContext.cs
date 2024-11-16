@@ -1,25 +1,25 @@
-﻿using System;
-using DI;
-using DI.Interfaces;
+﻿using DI;
 using LikeAGTA.Characters;
 using LikeAGTA.Characters.Data;
 using LikeAGTA.Characters.UI;
 using LikeAGTA.Factory;
+using RD_Tween.Runtime.LifeCycle;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace LikeAGTA.Core
 {
-    public class SceneContext : MonoBehaviour
+    public class SceneContext : MonoRunner
     {
         [SerializeField] PlayerDataSO _playerData;
-        [SerializeField] HUD _hud;
-       
-        void Awake()
+        [FormerlySerializedAs("_hud")] [SerializeField] HUD _hudPrefab;
+
+        protected override void BeforeAwake()
         {
+            base.BeforeAwake();
             InitializeBindings();
             SpawnInitialCharacters();
-            Instantiate(_hud);
-            InjectDependencies();
+            Instantiate(_hudPrefab);
         }
     
         void InitializeBindings()
@@ -32,18 +32,6 @@ namespace LikeAGTA.Core
             ICharacterFactory characterFactory = DIContainer.Instance.Resolve<ICharacterFactory>();
             Player player = characterFactory.SpawnCharacter(_playerData.Prefab, _playerData.SpawnPosition,
                 Quaternion.identity, true);
-        }
-    
-        void InjectDependencies()
-        {
-            foreach (MonoBehaviour monoBehaviour in FindObjectsOfType<MonoBehaviour>(true))
-            {
-                DIInitializer.Instance.InjectDependencies(monoBehaviour);
-                if (monoBehaviour is IInitializable initializable)
-                {
-                    initializable.Initialize();
-                }
-            }
         }
     }
 }

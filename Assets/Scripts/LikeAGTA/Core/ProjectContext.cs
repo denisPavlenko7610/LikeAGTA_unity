@@ -1,17 +1,27 @@
+using System;
 using System.Threading.Tasks;
 using DI;
+using RD_Tween.Runtime.LifeCycle;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 namespace LikeAGTA.Core
 {
-    public class ProjectContext : MonoBehaviour
+    public class ProjectContext : MonoRunner
     {
-        async void Awake()
+        protected override async void BeforeAwake()
         {
-            InitializeBindings();
-            DontDestroyOnLoad(gameObject);
+            try
+            {
+                base.BeforeAwake();
+                InitializeBindings();
+                DontDestroyOnLoad(gameObject);
 
-            await LoadMainScene();
+                await LoadMainScene();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
         
         private async Task LoadMainScene()

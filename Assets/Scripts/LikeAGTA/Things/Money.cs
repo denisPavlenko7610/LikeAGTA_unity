@@ -1,16 +1,18 @@
 using LikeAGTA.Systems.PickUpSystem;
 using RD_Tween.Runtime;
+using RD_Tween.Runtime.LifeCycle;
 using UnityEngine;
 
 namespace LikeAGTA.Things
 {
-    public class Money : MonoBehaviour, IPickup
+    public class Money : MonoRunner, IPickup
     {
         [SerializeField] private int moneyValue = 10;
         [SerializeField] private Transform rotatebleModel;
-        
-        void Start()
+
+        protected override void Initialize()
         {
+            base.Initialize();
             rotatebleModel.RotateByY(360f, 1f)
                 .Loop(-1)
                 .Play();

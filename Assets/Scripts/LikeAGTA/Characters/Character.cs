@@ -1,13 +1,8 @@
-﻿using DI.Interfaces;
-using UnityEngine;
+﻿using RD_Tween.Runtime.LifeCycle;
 
 namespace LikeAGTA.Characters
 {
-    public class Character : MonoBehaviour, ICharacter, IInitializable
+    public class Character : MonoRunner, ICharacter
     {
-        public virtual void Initialize()
-        {
-            
-        }
     }
 }

@@ -1,13 +1,12 @@
-﻿using System;
-using DI.Attributes;
-using DI.Interfaces;
+﻿using DI.Attributes;
 using LikeAGTA.Systems.PickUpSystem;
+using RD_Tween.Runtime.LifeCycle;
 using TMPro;
 using UnityEngine;
 
 namespace LikeAGTA.Characters.UI
 {
-    public class HUD : MonoBehaviour
+    public class HUD : MonoRunner
     {
         [SerializeField] TextMeshProUGUI _moneyText;
         [SerializeField] TextMeshProUGUI _heartText;
@@ -19,14 +18,13 @@ namespace LikeAGTA.Characters.UI
         {
             _player = player;
         }
-
         
-        public void Start()
+        private void OnEnable()
         {
             Subscribe();
         }
-        
-        private void OnDestroy()
+
+        private void OnDisable()
         {
             Unsubscribe();
         }
