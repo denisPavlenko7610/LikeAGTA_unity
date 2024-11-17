@@ -1,4 +1,5 @@
-﻿using RD_Tween.Runtime.LifeCycle;
+﻿using DI.Attributes;
+using RD_SimpleDI.Runtime.LifeCycle;
 using StarterAssets;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -7,7 +8,6 @@ using UnityEngine.InputSystem;
 namespace LikeAGTA.Characters
 {
     [RequireComponent(typeof(CharacterController))]
-    [RequireComponent(typeof(PlayerInput))]
     public class PlayerMovement : MonoRunner
     {
         [Header("Player")]
@@ -16,10 +16,7 @@ namespace LikeAGTA.Characters
         [Range(0.0f, 0.3f)]
         public float RotationSmoothTime = 0.12f;
         public float SpeedChangeRate = 10.0f;
-
-        public AudioClip LandingAudioClip;
-        public AudioClip[] FootstepAudioClips;
-        [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
+        
         public float JumpHeight = 1.2f;
         public float Gravity = -15.0f;
         public float JumpTimeout = 0.50f;
@@ -71,16 +68,23 @@ namespace LikeAGTA.Characters
         private const float _threshold = 0.01f;
 
         private bool _hasAnimator;
+        
+        // public AudioClip LandingAudioClip;
+        // public AudioClip[] FootstepAudioClips;
+        // [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
 
-        private bool IsCurrentDeviceMouse => _playerInput.currentControlScheme == "KeyboardMouse";
-
+        [Inject]
+        void Construct(PlayerInput playerInput)
+        {
+            _playerInput = playerInput;
+        }
+        
         protected override void Initialize()
         {
             base.Initialize();
-            if (_mainCamera != null)
-                return;
+            if (_mainCamera == null)
+                _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             
-            _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             _cinemachineCamera = FindFirstObjectByType<CinemachineCamera>();
             _cinemachineCamera.Follow = GameObject.FindGameObjectWithTag("CinemachineTarget").transform;
             
@@ -92,7 +96,6 @@ namespace LikeAGTA.Characters
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
-            _playerInput = GetComponent<PlayerInput>();
 
             AssignAnimationIDs();
 
@@ -101,14 +104,17 @@ namespace LikeAGTA.Characters
             _fallTimeoutDelta = FallTimeout;
         }
 
-        void Update()
+        protected override void Run()
         {
+            base.Run();
             _hasAnimator = TryGetComponent(out _animator);
             JumpAndGravity();
             GroundedCheck();
             CameraRotation();
             Move();
         }
+        
+        private bool IsCurrentDeviceMouse => _playerInput.currentControlScheme == "KeyboardMouse";
         
         private void AssignAnimationIDs()
         {
@@ -180,7 +186,8 @@ namespace LikeAGTA.Characters
             }
 
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-            if (_animationBlend < 0.01f) _animationBlend = 0f;
+            if (_animationBlend < 0.01f)
+                _animationBlend = 0f;
             
             Vector3 targetDirection = transform.forward * _input.move.y + transform.right * _input.move.x;
 
@@ -253,43 +260,33 @@ namespace LikeAGTA.Characters
 
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
         {
-            if (lfAngle < -360f) lfAngle += 360f;
-            if (lfAngle > 360f) lfAngle -= 360f;
+            if (lfAngle < -360f) 
+                lfAngle += 360f;
+            
+            if (lfAngle > 360f) 
+                lfAngle -= 360f;
+            
             return Mathf.Clamp(lfAngle, lfMin, lfMax);
         }
 
-        private void OnDrawGizmosSelected()
-        {
-            Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
-            Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
-
-            if (Grounded) Gizmos.color = transparentGreen;
-            else Gizmos.color = transparentRed;
-
-            // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
-            Gizmos.DrawSphere(
-                new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
-                GroundedRadius);
-        }
-
-        private void OnFootstep(AnimationEvent animationEvent)
-        {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
-            {
-                if (FootstepAudioClips.Length > 0)
-                {
-                    var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
-                }
-            }
-        }
-
-        private void OnLand(AnimationEvent animationEvent)
-        {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
-            {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
-            }
-        }
+        // private void OnFootstep(AnimationEvent animationEvent)
+        // {
+        //     if (animationEvent.animatorClipInfo.weight > 0.5f)
+        //     {
+        //         if (FootstepAudioClips.Length > 0)
+        //         {
+        //             var index = Random.Range(0, FootstepAudioClips.Length);
+        //             AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
+        //         }
+        //     }
+        // }
+        //
+        // private void OnLand(AnimationEvent animationEvent)
+        // {
+        //     if (animationEvent.animatorClipInfo.weight > 0.5f)
+        //     {
+        //         AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+        //     }
+        // }
     }
 }

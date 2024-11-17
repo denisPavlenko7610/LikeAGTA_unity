@@ -3,8 +3,9 @@ using LikeAGTA.Characters;
 using LikeAGTA.Characters.Data;
 using LikeAGTA.Characters.UI;
 using LikeAGTA.Factory;
-using RD_Tween.Runtime.LifeCycle;
+using RD_SimpleDI.Runtime.LifeCycle;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 namespace LikeAGTA.Core
@@ -12,14 +13,15 @@ namespace LikeAGTA.Core
     public class SceneContext : MonoRunner
     {
         [SerializeField] PlayerDataSO _playerData;
-        [FormerlySerializedAs("_hud")] [SerializeField] HUD _hudPrefab;
-
+        [SerializeField] HUD _hudPrefab;
+        
         protected override void BeforeAwake()
         {
             base.BeforeAwake();
             InitializeBindings();
             SpawnInitialCharacters();
             Instantiate(_hudPrefab);
+            DIContainer.Instance.ValidateRegistrations();
         }
     
         void InitializeBindings()

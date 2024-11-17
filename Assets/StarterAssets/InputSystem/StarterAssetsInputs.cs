@@ -1,9 +1,10 @@
+using RD_SimpleDI.Runtime.LifeCycle;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StarterAssets
 {
-	public class StarterAssetsInputs : MonoBehaviour
+	public class StarterAssetsInputs : MonoRunner
 	{
 		[Header("Character Input Values")]
 		public Vector2 move;

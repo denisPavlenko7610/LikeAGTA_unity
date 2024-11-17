@@ -540,7 +540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerData: {fileID: 11400000, guid: 080bc09f33076cc449886cba079937b0, type: 2}
-  _hud: {fileID: 2195467094708763477, guid: 260808027ca6cfd46a7355cb103fee35, type: 3}
+  _hudPrefab: {fileID: 2195467094708763477, guid: 260808027ca6cfd46a7355cb103fee35, type: 3}
 --- !u!1 &1949295601
 GameObject:
   m_ObjectHideFlags: 0

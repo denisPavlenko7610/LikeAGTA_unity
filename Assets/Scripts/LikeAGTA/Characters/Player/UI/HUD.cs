@@ -1,6 +1,6 @@
 ﻿using DI.Attributes;
 using LikeAGTA.Systems.PickUpSystem;
-using RD_Tween.Runtime.LifeCycle;
+using RD_SimpleDI.Runtime.LifeCycle;
 using TMPro;
 using UnityEngine;
 
@@ -10,30 +10,53 @@ namespace LikeAGTA.Characters.UI
     {
         [SerializeField] TextMeshProUGUI _moneyText;
         [SerializeField] TextMeshProUGUI _heartText;
+        [SerializeField] TextMeshProUGUI _pauseText;
 
         private Player _player;
-        
+
         [Inject]
         private void Construct(Player player)
         {
             _player = player;
         }
-        
-        private void OnEnable()
+
+        protected override void Initialize()
         {
+            base.Initialize();
+            _pauseText.enabled = false;
+            
+        }
+
+        protected override void Appear()
+        {
+            base.Appear();
             Subscribe();
         }
 
-        private void OnDisable()
+        protected override void Disappear()
         {
+            base.Disappear();
             Unsubscribe();
         }
-        
+
+        void Pause()
+        {
+            _pauseText.enabled = true;
+        }
+
+        void Resume()
+        {
+            _pauseText.enabled = false;
+        }
+
         private void Subscribe()
         {
             PlayerPickup playerPickup = _player.GetPlayerPickup();
             playerPickup.OnHealthChanged += UpdatePlayerHealth;
             playerPickup.OnMoneyChanged += UpdatePlayerMoney;
+            
+            OnPause += Pause;
+            OnResume += Resume;
         }
 
         private void Unsubscribe()
@@ -44,6 +67,9 @@ namespace LikeAGTA.Characters.UI
                 playerPickup.OnHealthChanged -= UpdatePlayerHealth;
                 playerPickup.OnMoneyChanged -= UpdatePlayerMoney;
             }
+            
+            OnPause -= Pause;
+            OnResume -= Resume;
         }
 
         private void UpdatePlayerMoney(int money)

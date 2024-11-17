@@ -1,20 +1,25 @@
 using System;
 using System.Threading.Tasks;
 using DI;
-using RD_Tween.Runtime.LifeCycle;
+using RD_SimpleDI.Runtime.LifeCycle;
+using RDTools.AutoAttach;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 namespace LikeAGTA.Core
 {
     public class ProjectContext : MonoRunner
     {
+        [SerializeField, Attach(Attach.Scene)] PlayerInput _playerInput;
+        
         protected override async void BeforeAwake()
         {
             try
             {
                 base.BeforeAwake();
                 InitializeBindings();
-                DontDestroyOnLoad(gameObject);
+                Subscribe();
+                SetupDontDestroy();
 
                 await LoadMainScene();
             }
@@ -22,6 +27,24 @@ namespace LikeAGTA.Core
             {
                 throw;
             }
+        }
+
+        private void SetupDontDestroy()
+        {
+            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(_playerInput.gameObject);
+        }
+
+        void InitializeBindings()
+        {
+            DIContainer.Instance.Bind(_playerInput);
+            // Register global services and dependencies
+            //container.Bind<IAds, AdsService>();
+        }
+        
+        void Subscribe()
+        {
+            _playerInput.actions["Pause"].performed += OnPausePerformed;
         }
         
         private async Task LoadMainScene()
@@ -36,15 +59,21 @@ namespace LikeAGTA.Core
 
             await SceneManager.UnloadSceneAsync("Bootstrap");
         }
+        
+        public static T Resolve<T>() => DIContainer.Instance.Resolve<T>();
+        
+        private void OnPausePerformed(InputAction.CallbackContext context) => TogglePause();
 
-        void InitializeBindings()
+        void Unsubscribe()
         {
-            var container = DIContainer.Instance;
-
-            // Register global services and dependencies
-            //container.Bind<IAds, AdsService>();
+            if (_playerInput)
+                _playerInput.actions["Pause"].performed -= OnPausePerformed;
         }
 
-        public static T Resolve<T>() => DIContainer.Instance.Resolve<T>();
+        protected override void Delete()
+        {
+            base.Delete();
+            Unsubscribe();
+        }
     }
 }

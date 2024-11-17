@@ -12,7 +12,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "24ff3ec90114e2e6693b8f57a86f830afbaa9327"
+      "hash": "1844ec3421ddef36e661f421fee4c1d63f3f45ad"
     },
     "com.rdragon.tools": {
       "version": "https://github.com/denisPavlenko7610/RDTools.git",

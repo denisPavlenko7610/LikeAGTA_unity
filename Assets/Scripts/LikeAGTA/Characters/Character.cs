@@ -1,4 +1,4 @@
-﻿using RD_Tween.Runtime.LifeCycle;
+﻿using RD_SimpleDI.Runtime.LifeCycle;
 
 namespace LikeAGTA.Characters
 {
