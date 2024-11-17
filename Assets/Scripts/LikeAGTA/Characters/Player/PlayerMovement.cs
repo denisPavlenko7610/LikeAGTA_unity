@@ -69,39 +69,38 @@ namespace LikeAGTA.Characters
 
         private bool _hasAnimator;
         
-        // public AudioClip LandingAudioClip;
-        // public AudioClip[] FootstepAudioClips;
-        // [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
+        public AudioClip LandingAudioClip;
+        public AudioClip[] FootstepAudioClips;
+        [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
 
-        [Inject]
-        void Construct(PlayerInput playerInput)
-        {
-            _playerInput = playerInput;
-        }
-        
         protected override void Initialize()
         {
             base.Initialize();
-            if (_mainCamera == null)
-                _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-            
+            if (_mainCamera != null)
+                return;
+
+            _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+
             _cinemachineCamera = FindFirstObjectByType<CinemachineCamera>();
             _cinemachineCamera.Follow = GameObject.FindGameObjectWithTag("CinemachineTarget").transform;
-            
+
             Cursor.lockState = CursorLockMode.Locked; // Lock cursor to the center of the screen
-            Cursor.visible = false;                   // Hide the cursor
+            Cursor.visible = false; // Hide the cursor
 
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
+            _playerInput = GetComponent<PlayerInput>();
 
             AssignAnimationIDs();
 
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+            
+            Subscribe();
         }
 
         protected override void Run()
@@ -113,8 +112,27 @@ namespace LikeAGTA.Characters
             CameraRotation();
             Move();
         }
-        
-        private bool IsCurrentDeviceMouse => _playerInput.currentControlScheme == "KeyboardMouse";
+
+        protected override void Delete()
+        {
+            base.Delete();
+            Unsubscribe();
+        }
+
+        void Subscribe()
+        {
+            OnPause += Pause;
+        }
+
+        void Unsubscribe()
+        {
+            OnPause -= Pause;
+        }
+
+        void Pause()
+        {
+            _animator.SetFloat(_animIDSpeed, 0);
+        }
         
         private void AssignAnimationIDs()
         {
@@ -143,7 +161,7 @@ namespace LikeAGTA.Characters
             if (!(_input.look.sqrMagnitude >= _threshold) || LockCameraPosition)
                 return;
 
-            float rotationSpeedMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+            float rotationSpeedMultiplier = Time.deltaTime;
     
             _cinemachineTargetYaw += _input.look.x * rotationSpeedMultiplier;
             _cinemachineTargetPitch += _input.look.y * rotationSpeedMultiplier;
@@ -269,24 +287,26 @@ namespace LikeAGTA.Characters
             return Mathf.Clamp(lfAngle, lfMin, lfMax);
         }
 
-        // private void OnFootstep(AnimationEvent animationEvent)
-        // {
-        //     if (animationEvent.animatorClipInfo.weight > 0.5f)
-        //     {
-        //         if (FootstepAudioClips.Length > 0)
-        //         {
-        //             var index = Random.Range(0, FootstepAudioClips.Length);
-        //             AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
-        //         }
-        //     }
-        // }
-        //
-        // private void OnLand(AnimationEvent animationEvent)
-        // {
-        //     if (animationEvent.animatorClipInfo.weight > 0.5f)
-        //     {
-        //         AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
-        //     }
-        // }
+        //called from animation
+        private void OnFootstep(AnimationEvent animationEvent)
+        {
+            if (animationEvent.animatorClipInfo.weight > 0.5f)
+            {
+                if (FootstepAudioClips.Length > 0)
+                {
+                    var index = Random.Range(0, FootstepAudioClips.Length);
+                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                }
+            }
+        }
+        
+        //called from animation
+        private void OnLand(AnimationEvent animationEvent)
+        {
+            if (animationEvent.animatorClipInfo.weight > 0.5f)
+            {
+                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+            }
+        }
     }
 }

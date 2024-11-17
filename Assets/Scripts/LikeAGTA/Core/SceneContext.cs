@@ -5,8 +5,6 @@ using LikeAGTA.Characters.UI;
 using LikeAGTA.Factory;
 using RD_SimpleDI.Runtime.LifeCycle;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace LikeAGTA.Core
 {
@@ -21,7 +19,9 @@ namespace LikeAGTA.Core
             InitializeBindings();
             SpawnInitialCharacters();
             Instantiate(_hudPrefab);
+#if UNITY_EDITOR
             DIContainer.Instance.ValidateRegistrations();
+#endif
         }
     
         void InitializeBindings()

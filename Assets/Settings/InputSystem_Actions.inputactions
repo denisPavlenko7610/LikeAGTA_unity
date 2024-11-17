@@ -89,7 +89,7 @@
                 {
                     "name": "Pause",
                     "type": "Button",
-                    "id": "a9076611-218d-4f77-8ec3-eb3fd75d050d",
+                    "id": "b88b8ac8-c3a4-4162-932d-dc49a72cba6a",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -226,6 +226,17 @@
                     "processors": "",
                     "groups": "Joystick",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "49f44a18-fefc-4f19-b446-fb2a807fdee8",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -479,17 +490,6 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Crouch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4bd5454d-c435-4ab1-ada5-d6ea98f2df00",
-                    "path": "<Keyboard>/p",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

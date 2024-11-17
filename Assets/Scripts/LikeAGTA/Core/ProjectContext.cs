@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using DI;
 using RD_SimpleDI.Runtime.LifeCycle;
-using RDTools.AutoAttach;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -10,7 +9,7 @@ namespace LikeAGTA.Core
 {
     public class ProjectContext : MonoRunner
     {
-        [SerializeField, Attach(Attach.Scene)] PlayerInput _playerInput;
+        private InputAction _pauseAction;  
         
         protected override async void BeforeAwake()
         {
@@ -19,32 +18,39 @@ namespace LikeAGTA.Core
                 base.BeforeAwake();
                 InitializeBindings();
                 Subscribe();
+                SetUnityLogStatus();
                 SetupDontDestroy();
-
                 await LoadMainScene();
             }
             catch (Exception e)
             {
-                throw;
+                Debug.LogError(e);
             }
         }
 
         private void SetupDontDestroy()
         {
             DontDestroyOnLoad(gameObject);
-            DontDestroyOnLoad(_playerInput.gameObject);
         }
 
         void InitializeBindings()
         {
-            DIContainer.Instance.Bind(_playerInput);
-            // Register global services and dependencies
-            //container.Bind<IAds, AdsService>();
+            //DIContainer.Instance.Bind(_uiInput);
         }
         
         void Subscribe()
         {
-            _playerInput.actions["Pause"].performed += OnPausePerformed;
+            _pauseAction = InputSystem.actions.FindAction("Pause");
+            _pauseAction.performed += OnPausePerformed;
+        }
+        
+        void SetUnityLogStatus()
+        {
+#if UNITY_EDITOR
+            Debug.unityLogger.logEnabled = true;
+#else
+            Debug.unityLogger.logEnabled = false;
+#endif
         }
         
         private async Task LoadMainScene()
@@ -66,8 +72,7 @@ namespace LikeAGTA.Core
 
         void Unsubscribe()
         {
-            if (_playerInput)
-                _playerInput.actions["Pause"].performed -= OnPausePerformed;
+            _pauseAction.performed -= OnPausePerformed;
         }
 
         protected override void Delete()
