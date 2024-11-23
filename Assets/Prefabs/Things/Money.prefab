@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca1a94d066ea98c46a853a9088c7fed9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moneyValue: 10
   rotatebleModel: {fileID: 9056473185587782089}
 --- !u!1 &4999854190827450266
 GameObject:
@@ -148,7 +149,7 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 0.3651842, g: 0.993139, b: 0.03458106, a: 1}
-  m_Intensity: 229.24303
+  m_Intensity: 0.39788735
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

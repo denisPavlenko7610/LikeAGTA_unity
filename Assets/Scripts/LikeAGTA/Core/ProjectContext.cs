@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using DI;
 using RD_SimpleDI.Runtime;
 using RD_SimpleDI.Runtime.LifeCycle;
-using RDTools.AutoAttach;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
