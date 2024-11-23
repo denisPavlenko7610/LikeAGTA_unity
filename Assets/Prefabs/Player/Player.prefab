@@ -916,14 +916,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1734557923237382553}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.1027, y: 0, z: 0}
+  m_LocalRotation: {x: 0.4951592, y: 0.309915, z: -0.17535844, w: 0.79247683}
+  m_LocalPosition: {x: 0.1278, y: -0.0214, z: 0.0197}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9150681309674734998}
   m_Father: {fileID: 8853742718483331315}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 63.316, y: 45, z: 3.7}
 --- !u!1 &1848291960494915190
 GameObject:
   m_ObjectHideFlags: 0
@@ -2184,7 +2184,12 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'root'\n\tTransform 'lowerarm_l'\n\tTransform
+    'root'\n\tTransform 'neck_01'\n\tTransform 'clavicle_l'\n\tTransform 'ring_02_l'\n\tTransform
+    'hand_l'\n\tTransform 'middle_01_l'\n\tTransform 'ring_01_r'\n\tTransform 'spine_02'\n\tand
+    more ...\n\tFrom animation clip 'Aim'\n\tFrom animation clip 'PutWeaponBack'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -2288,6 +2293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerMovement: {fileID: 1272847778520965951}
+  _playerAnimator: {fileID: 1975945727985506983}
 --- !u!114 &5207356233884147228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3336,15 +3342,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 402066, guid: b15e51dd92f0b8e40b47f478493fad2b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.034
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: 402066, guid: b15e51dd92f0b8e40b47f478493fad2b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.014
+      value: -0.018
       objectReference: {fileID: 0}
     - target: {fileID: 402066, guid: b15e51dd92f0b8e40b47f478493fad2b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.105
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 402066, guid: b15e51dd92f0b8e40b47f478493fad2b, type: 3}
       propertyPath: m_LocalRotation.w
