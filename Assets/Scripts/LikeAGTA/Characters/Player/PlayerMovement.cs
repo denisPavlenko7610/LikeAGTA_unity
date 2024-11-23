@@ -1,5 +1,4 @@
-﻿using DI.Attributes;
-using RD_SimpleDI.Runtime.LifeCycle;
+﻿using RD_SimpleDI.Runtime.LifeCycle;
 using StarterAssets;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -103,7 +102,7 @@ namespace LikeAGTA.Characters
             Subscribe();
         }
 
-        protected override void Run()
+        public override void Run()
         {
             base.Run();
             _hasAnimator = TryGetComponent(out _animator);

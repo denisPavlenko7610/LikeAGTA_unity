@@ -85,3 +85,6 @@ bin/
 obj/
 .vscode/
 *.tmpro
+
+# Folders
+_Packages/

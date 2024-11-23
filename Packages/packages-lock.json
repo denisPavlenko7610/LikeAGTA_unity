@@ -1,26 +1,5 @@
 {
   "dependencies": {
-    "com.rd.rdtween": {
-      "version": "https://github.com/denisPavlenko7610/RD_Tween.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "eb91fa595019249395364363ddce83a8fcfeeffc"
-    },
-    "com.rd.simpledi": {
-      "version": "https://github.com/denisPavlenko7610/RD_SimpleDI.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "cf46948c44391c4cdc4b81366d8a84f820b803c4"
-    },
-    "com.rdragon.tools": {
-      "version": "https://github.com/denisPavlenko7610/RDTools.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "102bf510812f6552ce96f9f7cb2d5650ba320045"
-    },
     "com.unity.addressables": {
       "version": "2.2.2",
       "depth": 1,
@@ -37,7 +16,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ai.navigation": {
-      "version": "2.0.4",
+      "version": "2.0.5",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -46,7 +25,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.behavior": {
-      "version": "1.0.5",
+      "version": "1.0.6",
       "depth": 0,
       "source": "registry",
       "dependencies": {

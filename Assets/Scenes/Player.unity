@@ -179,7 +179,7 @@ GameObject:
   m_Component:
   - component: {fileID: 58775084}
   - component: {fileID: 58775083}
-  - component: {fileID: 58775082}
+  - component: {fileID: 58775086}
   - component: {fileID: 58775081}
   - component: {fileID: 58775085}
   m_Layer: 0
@@ -328,14 +328,6 @@ MonoBehaviour:
       enableFptlForForwardOpaque: 0
       enableBigTilePrepass: 0
       isFptlEnabled: 0
---- !u!81 &58775082
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 58775080}
-  m_Enabled: 1
 --- !u!20 &58775083
 Camera:
   m_ObjectHideFlags: 0
@@ -434,6 +426,14 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!81 &58775086
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58775080}
+  m_Enabled: 1
 --- !u!1001 &145451839
 PrefabInstance:
   m_ObjectHideFlags: 0

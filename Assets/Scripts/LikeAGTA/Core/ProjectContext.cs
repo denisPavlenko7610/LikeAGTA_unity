@@ -1,7 +1,9 @@
 using System;
 using System.Threading.Tasks;
 using DI;
+using RD_SimpleDI.Runtime;
 using RD_SimpleDI.Runtime.LifeCycle;
+using RDTools.AutoAttach;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -68,7 +70,7 @@ namespace LikeAGTA.Core
         
         public static T Resolve<T>() => DIContainer.Instance.Resolve<T>();
         
-        private void OnPausePerformed(InputAction.CallbackContext context) => TogglePause();
+        private void OnPausePerformed(InputAction.CallbackContext context) => GameState.TogglePause();
 
         void Unsubscribe()
         {
