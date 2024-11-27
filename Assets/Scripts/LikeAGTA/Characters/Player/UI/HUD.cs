@@ -1,4 +1,5 @@
-﻿using DI.Attributes;
+﻿using _Packages.RD_SimpleDI.Runtime.LifeCycle.Interfaces;
+using DI.Attributes;
 using LikeAGTA.Systems.PickUpSystem;
 using RD_SimpleDI.Runtime.LifeCycle;
 using TMPro;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace LikeAGTA.Characters.UI
 {
-    public class HUD : MonoRunner
+    public class HUD : MonoRunner, IPause, IResume
     {
         [SerializeField] TextMeshProUGUI _moneyText;
         [SerializeField] TextMeshProUGUI _heartText;
@@ -39,12 +40,12 @@ namespace LikeAGTA.Characters.UI
             Unsubscribe();
         }
 
-        void Pause()
+        public void Pause()
         {
             _pauseText.enabled = true;
         }
 
-        void Resume()
+        public void Resume()
         {
             _pauseText.enabled = false;
         }
@@ -54,9 +55,6 @@ namespace LikeAGTA.Characters.UI
             PlayerPickup playerPickup = _player.GetPlayerPickup();
             playerPickup.OnHealthChanged += UpdatePlayerHealth;
             playerPickup.OnMoneyChanged += UpdatePlayerMoney;
-            
-            OnPause += Pause;
-            OnResume += Resume;
         }
 
         private void Unsubscribe()
@@ -67,9 +65,6 @@ namespace LikeAGTA.Characters.UI
                 playerPickup.OnHealthChanged -= UpdatePlayerHealth;
                 playerPickup.OnMoneyChanged -= UpdatePlayerMoney;
             }
-            
-            OnPause -= Pause;
-            OnResume -= Resume;
         }
 
         private void UpdatePlayerMoney(int money)

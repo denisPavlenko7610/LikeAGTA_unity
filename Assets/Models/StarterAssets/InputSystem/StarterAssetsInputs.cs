@@ -1,3 +1,4 @@
+using _Packages.RD_SimpleDI.Runtime.LifeCycle.Interfaces;
 using RD_SimpleDI.Runtime;
 using RD_SimpleDI.Runtime.LifeCycle;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace StarterAssets
 {
-	public class StarterAssetsInputs : MonoRunner
+	public class StarterAssetsInputs : MonoRunner, IPause
 	{
 		[Header("Character Input Values")]
 		public Vector2 move;
@@ -19,18 +20,6 @@ namespace StarterAssets
 		[Header("Mouse Cursor Settings")]
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
-
-		protected override void Initialize()
-		{
-			base.Initialize();
-			OnPause += Pause;
-		}
-
-		protected override void Delete()
-		{
-			base.Delete();
-			OnPause -= Pause;
-		}
 
 		void Pause()
 		{
@@ -113,6 +102,10 @@ namespace StarterAssets
 				? CursorLockMode.Locked 
 				: CursorLockMode.None;
 		}
+
+		void IPause.Pause()
+		{
+			Pause();
+		}
 	}
-	
 }

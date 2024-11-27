@@ -1,4 +1,5 @@
-﻿using RDTools.AutoAttach;
+﻿using System;
+using RDTools.AutoAttach;
 using LikeAGTA.Systems.PickUpSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,12 +9,16 @@ namespace LikeAGTA.Characters
     public class Player : Character
     {
         [SerializeField, Attach] PlayerMovement _playerMovement;
-        [SerializeField, Attach] Animator _playerAnimator;
         
         PlayerPickup _playerPickup;
+        
+        public Action OnPlayerAiming;
+        public Action OnPlayerStopAiming;
+        public Action OnPlayerShoot;
+        
         private InputAction _aimAction;
         private InputAction _attackAction;
-
+        
         protected override void Initialize()
         {
             base.Initialize();
@@ -22,7 +27,6 @@ namespace LikeAGTA.Characters
             
             _aimAction.performed += OnAimPerformed;
             _aimAction.canceled += OnAimCanceled;
-
             _attackAction.performed += OnAttackPerformed;
         }
         
@@ -31,23 +35,22 @@ namespace LikeAGTA.Characters
             base.Delete();
             _aimAction.performed -= OnAimPerformed;
             _aimAction.canceled -= OnAimCanceled;
-
             _attackAction.performed -= OnAttackPerformed;
         }
 
         private void OnAttackPerformed(InputAction.CallbackContext obj)
         {
-            _playerAnimator.SetTrigger(AnimationConstants.Attack);
+            OnPlayerShoot?.Invoke();
         }
         
         private void OnAimPerformed(InputAction.CallbackContext obj)
         {
-            _playerAnimator.SetBool(AnimationConstants.Aim, true);
+            OnPlayerAiming?.Invoke();
         }
         
         private void OnAimCanceled(InputAction.CallbackContext obj)
         {
-            _playerAnimator.SetBool(AnimationConstants.Aim, false);
+           OnPlayerStopAiming?.Invoke();
         }
 
         private void OnTriggerEnter(Collider other)

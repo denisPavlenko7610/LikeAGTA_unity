@@ -2138,9 +2138,10 @@ GameObject:
   - component: {fileID: 65326574154475421}
   - component: {fileID: 1975945727985506983}
   - component: {fileID: 7827221508455137404}
+  - component: {fileID: 3903325556566921668}
   - component: {fileID: 1272847778520965951}
   - component: {fileID: 1795993106263212727}
-  - component: {fileID: 3903325556566921668}
+  - component: {fileID: 4345136995652216876}
   - component: {fileID: 5207356233884147228}
   - component: {fileID: 736979966942439692}
   m_Layer: 8
@@ -2184,12 +2185,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'root'\n\tTransform 'lowerarm_l'\n\tTransform
-    'root'\n\tTransform 'neck_01'\n\tTransform 'clavicle_l'\n\tTransform 'ring_02_l'\n\tTransform
-    'hand_l'\n\tTransform 'middle_01_l'\n\tTransform 'ring_01_r'\n\tTransform 'spine_02'\n\tand
-    more ...\n\tFrom animation clip 'Aim'\n\tFrom animation clip 'PutWeaponBack'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -2219,6 +2215,19 @@ CharacterController:
   m_SkinWidth: 0.02
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.93, z: 0}
+--- !u!114 &3903325556566921668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5769302553758415754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27186f6e3e944dac8bc6fb1dcbdf2e39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerMovement: {fileID: 1272847778520965951}
 --- !u!114 &1272847778520965951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2280,7 +2289,7 @@ MonoBehaviour:
     m_Bits: 0
   canPush: 0
   strength: 1.1
---- !u!114 &3903325556566921668
+--- !u!114 &4345136995652216876
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2289,11 +2298,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5769302553758415754}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27186f6e3e944dac8bc6fb1dcbdf2e39, type: 3}
+  m_Script: {fileID: 11500000, guid: a3160a36363244ab8728ff22625dfccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerMovement: {fileID: 1272847778520965951}
   _playerAnimator: {fileID: 1975945727985506983}
+  _player: {fileID: 3903325556566921668}
 --- !u!114 &5207356233884147228
 MonoBehaviour:
   m_ObjectHideFlags: 0

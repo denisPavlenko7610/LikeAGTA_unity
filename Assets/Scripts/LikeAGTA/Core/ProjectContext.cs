@@ -10,13 +10,11 @@ namespace LikeAGTA.Core
 {
     public class ProjectContext : MonoRunner
     {
-        private InputAction _pauseAction;  
-        
-        protected override async void BeforeAwake()
+        private InputAction _pauseAction;
+        protected async void Awake()
         {
             try
             {
-                base.BeforeAwake();
                 InitializeBindings();
                 Subscribe();
                 SetUnityLogStatus();
@@ -29,6 +27,7 @@ namespace LikeAGTA.Core
             }
         }
 
+       
         private void SetupDontDestroy()
         {
             DontDestroyOnLoad(gameObject);
@@ -73,7 +72,10 @@ namespace LikeAGTA.Core
 
         void Unsubscribe()
         {
-            _pauseAction.performed -= OnPausePerformed;
+            if (_pauseAction != null)
+            {
+                _pauseAction.performed -= OnPausePerformed;
+            }
         }
 
         protected override void Delete()

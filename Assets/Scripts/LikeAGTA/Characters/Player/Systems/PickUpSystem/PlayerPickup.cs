@@ -1,4 +1,6 @@
 ﻿using System;
+using RD_SimpleDI.Runtime.LifeCycle;
+using UnityEngine;
 
 namespace LikeAGTA.Systems.PickUpSystem
 {

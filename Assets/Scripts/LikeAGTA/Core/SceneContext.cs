@@ -13,9 +13,8 @@ namespace LikeAGTA.Core
         [SerializeField] PlayerDataSO _playerData;
         [SerializeField] HUD _hudPrefab;
         
-        protected override void BeforeAwake()
+        protected void Awake()
         {
-            base.BeforeAwake();
             InitializeBindings();
             SpawnInitialCharacters();
             Instantiate(_hudPrefab);
@@ -23,7 +22,7 @@ namespace LikeAGTA.Core
             DIContainer.Instance.ValidateRegistrations();
 #endif
         }
-    
+
         void InitializeBindings()
         {
             DIContainer.Instance.Bind<ICharacterFactory, CharacterFactory>();

@@ -1,4 +1,5 @@
-﻿using RD_SimpleDI.Runtime.LifeCycle;
+﻿using _Packages.RD_SimpleDI.Runtime.LifeCycle.Interfaces;
+using RD_SimpleDI.Runtime.LifeCycle;
 using StarterAssets;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine.InputSystem;
 namespace LikeAGTA.Characters
 {
     [RequireComponent(typeof(CharacterController))]
-    public class PlayerMovement : MonoRunner
+    public class PlayerMovement : MonoRunner, IPause
     {
         [Header("Player")]
         public float MoveSpeed = 2.0f;
@@ -98,13 +99,11 @@ namespace LikeAGTA.Characters
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
-            
-            Subscribe();
         }
 
-        public override void Run()
+        public override void Run(float delta)
         {
-            base.Run();
+            base.Run(delta);
             _hasAnimator = TryGetComponent(out _animator);
             JumpAndGravity();
             GroundedCheck();
@@ -112,23 +111,7 @@ namespace LikeAGTA.Characters
             Move();
         }
 
-        protected override void Delete()
-        {
-            base.Delete();
-            Unsubscribe();
-        }
-
-        void Subscribe()
-        {
-            OnPause += Pause;
-        }
-
-        void Unsubscribe()
-        {
-            OnPause -= Pause;
-        }
-
-        void Pause()
+        public void Pause()
         {
             _animator.SetFloat(_animIDSpeed, 0);
         }
