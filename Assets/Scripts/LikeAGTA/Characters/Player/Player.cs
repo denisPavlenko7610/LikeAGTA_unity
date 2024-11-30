@@ -24,15 +24,17 @@ namespace LikeAGTA.Characters
             base.Initialize();
             _aimAction = InputSystem.actions.FindAction(ActionConstants.Aim);
             _attackAction = InputSystem.actions.FindAction(ActionConstants.Attack);
-            
+        }
+
+        private void OnEnable()
+        {
             _aimAction.performed += OnAimPerformed;
             _aimAction.canceled += OnAimCanceled;
             _attackAction.performed += OnAttackPerformed;
         }
-        
-        protected override void Delete()
+
+        protected void OnDisable()
         {
-            base.Delete();
             _aimAction.performed -= OnAimPerformed;
             _aimAction.canceled -= OnAimCanceled;
             _attackAction.performed -= OnAttackPerformed;

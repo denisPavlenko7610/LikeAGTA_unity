@@ -9,11 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Bootstrap.unity
     guid: 3f6b06661356a0b449e23875a15c9dd9
   - enabled: 1
-    path: Assets/Scenes/Environment.unity
+    path: Assets/Scenes/GameScene.unity
     guid: 19333f7b4eb3259429d8674904f1a3b5
-  - enabled: 1
-    path: Assets/Scenes/Player.unity
-    guid: 3dd6985d248a2724291b46a30456112a
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 35845fe01580c41289b024647b1d1c53, type: 3}
   m_UseUCBPForAssetBundles: 0

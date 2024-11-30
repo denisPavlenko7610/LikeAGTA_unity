@@ -3,15 +3,16 @@ using LikeAGTA.Characters;
 using LikeAGTA.Characters.Data;
 using LikeAGTA.Characters.UI;
 using LikeAGTA.Factory;
-using RD_SimpleDI.Runtime.LifeCycle;
 using UnityEngine;
 
 namespace LikeAGTA.Core
 {
-    public class SceneContext : MonoRunner
+    [DefaultExecutionOrder(-40)]
+    public class SceneContext : MonoBehaviour
     {
-        [SerializeField] PlayerDataSO _playerData;
-        [SerializeField] HUD _hudPrefab;
+        [SerializeField] private Transform _playerStarterPoint;
+        [SerializeField] private PlayerDataSO _playerData;
+        [SerializeField] private HUD _hudPrefab;
         
         protected void Awake()
         {
@@ -31,7 +32,7 @@ namespace LikeAGTA.Core
         void SpawnInitialCharacters()
         {
             ICharacterFactory characterFactory = DIContainer.Instance.Resolve<ICharacterFactory>();
-            Player player = characterFactory.SpawnCharacter(_playerData.Prefab, _playerData.SpawnPosition,
+            Player player = characterFactory.SpawnCharacter(_playerData.Prefab, _playerStarterPoint.transform.position,
                 Quaternion.identity, true);
         }
     }

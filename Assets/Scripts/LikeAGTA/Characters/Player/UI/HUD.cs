@@ -25,18 +25,17 @@ namespace LikeAGTA.Characters.UI
         {
             base.Initialize();
             _pauseText.enabled = false;
-            
         }
 
-        protected override void Appear()
+        protected void OnEnable()
         {
-            base.Appear();
+            //base.Appear();
             Subscribe();
         }
 
-        protected override void Disappear()
+        protected void OnDisable()
         {
-            base.Disappear();
+            //base.Disappear();
             Unsubscribe();
         }
 
@@ -59,7 +58,7 @@ namespace LikeAGTA.Characters.UI
 
         private void Unsubscribe()
         {
-            PlayerPickup playerPickup = _player.GetPlayerPickup();
+            PlayerPickup playerPickup = _player?.GetPlayerPickup();
             if (playerPickup != null)
             {
                 playerPickup.OnHealthChanged -= UpdatePlayerHealth;

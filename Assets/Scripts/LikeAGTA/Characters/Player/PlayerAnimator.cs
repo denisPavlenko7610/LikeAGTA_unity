@@ -9,17 +9,15 @@ namespace LikeAGTA.Characters
         [SerializeField, Attach] Animator _playerAnimator;
         [SerializeField, Attach] Player _player;
         
-        protected override void Initialize()
+        protected void OnEnable()
         {
-            base.Initialize();
             _player.OnPlayerShoot += ShootAnimation;
             _player.OnPlayerAiming += AimingAnimation;
             _player.OnPlayerStopAiming += StopAimingAnimation;
         }
 
-        protected override void Delete()
+        protected void OnDisable()
         {
-            base.Delete();
             _player.OnPlayerShoot -= ShootAnimation;
             _player.OnPlayerAiming -= AimingAnimation;
             _player.OnPlayerStopAiming -= StopAimingAnimation;

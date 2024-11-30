@@ -1,15 +1,20 @@
 using System;
 using System.Threading.Tasks;
+using _Packages.RD_SimpleDI.Runtime.LifeCycle;
 using DI;
 using RD_SimpleDI.Runtime;
-using RD_SimpleDI.Runtime.LifeCycle;
+using RD_Tween.Runtime;
+using RDTools.AutoAttach;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 namespace LikeAGTA.Core
 {
-    public class ProjectContext : MonoRunner
+    public class ProjectContext : MonoBehaviour
     {
+        [SerializeField, Attach(Attach.Scene)] RunnerUpdater _runnerUpdater;
+        [SerializeField, Attach(Attach.Scene)] TweenUpdater _tweenUpdater;
+        
         private InputAction _pauseAction;
         protected async void Awake()
         {
@@ -26,11 +31,12 @@ namespace LikeAGTA.Core
                 Debug.LogError(e);
             }
         }
-
        
         private void SetupDontDestroy()
         {
             DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(_tweenUpdater);
+            DontDestroyOnLoad(_runnerUpdater);
         }
 
         void InitializeBindings()
@@ -44,26 +50,15 @@ namespace LikeAGTA.Core
             _pauseAction.performed += OnPausePerformed;
         }
         
-        void SetUnityLogStatus()
-        {
-#if UNITY_EDITOR
-            Debug.unityLogger.logEnabled = true;
-#else
-            Debug.unityLogger.logEnabled = false;
-#endif
-        }
-        
+        void SetUnityLogStatus() => Debug.unityLogger.logEnabled = Debug.isDebugBuild;
+
         private async Task LoadMainScene()
         {
-            AsyncOperation loadEnvironmentTask = SceneManager.LoadSceneAsync("Environment", LoadSceneMode.Additive);
-            AsyncOperation loadPlayerTask = SceneManager.LoadSceneAsync("Player", LoadSceneMode.Additive);
-            
-            while (!loadEnvironmentTask.isDone || !loadPlayerTask.isDone)
+            AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync("GameScene");
+            while (!loadSceneAsync.isDone)
             {
                 await Task.Yield();
             }
-
-            await SceneManager.UnloadSceneAsync("Bootstrap");
         }
         
         public static T Resolve<T>() => DIContainer.Instance.Resolve<T>();
@@ -78,9 +73,8 @@ namespace LikeAGTA.Core
             }
         }
 
-        protected override void Delete()
+        protected void OnDestroy()
         {
-            base.Delete();
             Unsubscribe();
         }
     }
