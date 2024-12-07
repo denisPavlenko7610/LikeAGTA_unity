@@ -13,3 +13,10 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   Prefab: {fileID: 3903325556566921668, guid: dcec7ae89974777449bf9c71ce1a509c, type: 3}
+  PlayerData:
+    Position:
+      x: 0
+      y: 0
+      z: 0
+    <Health>k__BackingField: 100
+    <Money>k__BackingField: 10

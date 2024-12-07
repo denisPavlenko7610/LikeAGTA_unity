@@ -1,4 +1,5 @@
-﻿using _Packages.RD_SimpleDI.Runtime.LifeCycle.Interfaces;
+﻿using System;
+using _Packages.RD_SimpleDI.Runtime.LifeCycle.Interfaces;
 using DI.Attributes;
 using LikeAGTA.Systems.PickUpSystem;
 using RD_SimpleDI.Runtime.LifeCycle;
@@ -27,15 +28,19 @@ namespace LikeAGTA.Characters.UI
             _pauseText.enabled = false;
         }
 
+        private void Start()
+        {
+            UpdatePlayerMoney(_player.GetPlayerData().Money);
+            UpdatePlayerHealth(_player.GetPlayerData().Health);
+        }
+
         protected void OnEnable()
         {
-            //base.Appear();
             Subscribe();
         }
 
         protected void OnDisable()
         {
-            //base.Disappear();
             Unsubscribe();
         }
 

@@ -1,28 +1,31 @@
 ﻿using System;
-using RD_SimpleDI.Runtime.LifeCycle;
+using LikeAGTA.Characters.SaveData;
 using UnityEngine;
 
 namespace LikeAGTA.Systems.PickUpSystem
 {
     public class PlayerPickup
     {
-        //temp
-        int _money = 0;
-        int _healthCount = 100;
+        private PlayerData _playerData;
+
+        public void Setup(PlayerData playerData)
+        {
+            _playerData = playerData;
+        }
         
         public event Action<int> OnMoneyChanged;
         public event Action<int> OnHealthChanged;
         
         public void CollectMoney(int amount)
         {
-            _money += amount;
-            OnMoneyChanged?.Invoke(_money);
+            _playerData.Money = Mathf.Clamp(_playerData.Money + amount, 0, int.MaxValue);
+            OnMoneyChanged?.Invoke(_playerData.Money);
         }
         
-        public void CollectHeart(int amount)
+        public void ChangeHealth(int amount)
         {
-            _healthCount += amount;
-            OnHealthChanged?.Invoke(_healthCount);
+            _playerData.Health = Mathf.Clamp(_playerData.Health + amount, 0, _playerData.MaxHealth);
+            OnHealthChanged?.Invoke(_playerData.Health);
         }
     }
 }

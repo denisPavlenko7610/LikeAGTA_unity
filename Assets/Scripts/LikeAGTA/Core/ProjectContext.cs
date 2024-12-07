@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using _Packages.RD_Save.Runtime;
 using _Packages.RD_SimpleDI.Runtime.LifeCycle;
 using DI;
 using RD_SimpleDI.Runtime;
@@ -12,10 +13,15 @@ namespace LikeAGTA.Core
 {
     public class ProjectContext : MonoBehaviour
     {
+        [SerializeField] private SaveFormat _saveFormat;
+        [SerializeField] private string _saveFilePath;
+
         [SerializeField, Attach(Attach.Scene)] RunnerUpdater _runnerUpdater;
         [SerializeField, Attach(Attach.Scene)] TweenUpdater _tweenUpdater;
         
         private InputAction _pauseAction;
+        private SaveSystem _saveSystem;
+
         protected async void Awake()
         {
             try
@@ -41,7 +47,8 @@ namespace LikeAGTA.Core
 
         void InitializeBindings()
         {
-            //DIContainer.Instance.Bind(_uiInput);
+            _saveSystem = new SaveSystem(SaveSystemFactory.GetSerializer(_saveFormat), _saveFormat, _saveFilePath);
+            DIContainer.Instance.Bind(_saveSystem);
         }
         
         void Subscribe()

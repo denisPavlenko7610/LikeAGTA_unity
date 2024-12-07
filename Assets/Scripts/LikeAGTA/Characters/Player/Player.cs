@@ -1,4 +1,7 @@
 ﻿using System;
+using _Packages.RD_Save.Runtime;
+using DI.Attributes;
+using LikeAGTA.Characters.SaveData;
 using RDTools.AutoAttach;
 using LikeAGTA.Systems.PickUpSystem;
 using UnityEngine;
@@ -8,9 +11,9 @@ namespace LikeAGTA.Characters
 {
     public class Player : Character
     {
-        [SerializeField, Attach] PlayerMovement _playerMovement;
+        [SerializeField, Attach] private PlayerMovement _playerMovement;
         
-        PlayerPickup _playerPickup;
+        private PlayerPickup _playerPickup;
         
         public Action OnPlayerAiming;
         public Action OnPlayerStopAiming;
@@ -18,10 +21,15 @@ namespace LikeAGTA.Characters
         
         private InputAction _aimAction;
         private InputAction _attackAction;
+        private PlayerData _playerData;
+        
+        [Inject]
+        SaveSystem _saveSystem;
         
         protected override void Initialize()
         {
             base.Initialize();
+            _playerPickup = new PlayerPickup();
             _aimAction = InputSystem.actions.FindAction(ActionConstants.Aim);
             _attackAction = InputSystem.actions.FindAction(ActionConstants.Attack);
         }
@@ -40,19 +48,9 @@ namespace LikeAGTA.Characters
             _attackAction.performed -= OnAttackPerformed;
         }
 
-        private void OnAttackPerformed(InputAction.CallbackContext obj)
+        private void Start()
         {
-            OnPlayerShoot?.Invoke();
-        }
-        
-        private void OnAimPerformed(InputAction.CallbackContext obj)
-        {
-            OnPlayerAiming?.Invoke();
-        }
-        
-        private void OnAimCanceled(InputAction.CallbackContext obj)
-        {
-           OnPlayerStopAiming?.Invoke();
+            _playerPickup.Setup(_playerData);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -60,8 +58,42 @@ namespace LikeAGTA.Characters
             PickupObject(other);
         }
 
-        public PlayerPickup GetPlayerPickup() => _playerPickup ??= new PlayerPickup();
+        protected override void Delete()
+        {
+#if !UNITY_EDITOR
+            base.Delete();
 
+            if (!Application.isPlaying)
+            {
+                Save();
+            }
+#endif
+        }
+        
+#if UNITY_EDITOR
+        private void OnApplicationQuit()
+        {
+            Save();
+        }
+#endif
+        public void SetupPlayerData(PlayerData playerData)
+        {
+            _playerData = playerData;
+        }
+
+        public PlayerData GetPlayerData() => _playerData;
+        public PlayerPickup GetPlayerPickup() => _playerPickup;
+        
+        private void OnAttackPerformed(InputAction.CallbackContext obj) => OnPlayerShoot?.Invoke();
+        private void OnAimPerformed(InputAction.CallbackContext obj) => OnPlayerAiming?.Invoke();
+        private void OnAimCanceled(InputAction.CallbackContext obj) => OnPlayerStopAiming?.Invoke();
+
+        private void Save()
+        {
+            _playerData.Position = transform.position;
+            _saveSystem.Save(_playerData);
+        }
+        
         private void PickupObject(Collider other)
         {
             if (!other.TryGetComponent(out IPickup pickup))

@@ -1,8 +1,12 @@
-﻿using DI;
+﻿using _Packages.RD_Save.Runtime;
+using DI;
+using DI.Attributes;
 using LikeAGTA.Characters;
 using LikeAGTA.Characters.Data;
+using LikeAGTA.Characters.SaveData;
 using LikeAGTA.Characters.UI;
 using LikeAGTA.Factory;
+using RDTools;
 using UnityEngine;
 
 namespace LikeAGTA.Core
@@ -11,11 +15,14 @@ namespace LikeAGTA.Core
     public class SceneContext : MonoBehaviour
     {
         [SerializeField] private Transform _playerStarterPoint;
-        [SerializeField] private PlayerDataSO _playerData;
+        [SerializeField, Expandable] private PlayerDataSO _playerDataSO;
         [SerializeField] private HUD _hudPrefab;
         
+        private SaveSystem _saveSystem;
+
         protected void Awake()
         {
+            _saveSystem = DIContainer.Instance.Resolve<SaveSystem>();
             InitializeBindings();
             SpawnInitialCharacters();
             Instantiate(_hudPrefab);
@@ -31,9 +38,18 @@ namespace LikeAGTA.Core
 
         void SpawnInitialCharacters()
         {
+            PlayerData playerData = GetPlayerData();
             ICharacterFactory characterFactory = DIContainer.Instance.Resolve<ICharacterFactory>();
-            Player player = characterFactory.SpawnCharacter(_playerData.Prefab, _playerStarterPoint.transform.position,
+            Player player = characterFactory.SpawnCharacter(_playerDataSO.Prefab, playerData.Position,
                 Quaternion.identity, true);
+            
+            player.SetupPlayerData(playerData);
+        }
+
+        private PlayerData GetPlayerData()
+        {
+            PlayerData playerData = _saveSystem.Load<PlayerData>();
+            return playerData ?? new PlayerData(_playerStarterPoint.position, _playerDataSO.PlayerData.Health, _playerDataSO.PlayerData.Money);
         }
     }
 }
