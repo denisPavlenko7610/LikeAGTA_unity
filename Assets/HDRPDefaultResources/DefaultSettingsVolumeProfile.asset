@@ -331,7 +331,7 @@ MonoBehaviour:
     m_Value: 1
   layers:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   resolution:
     m_OverrideState: 1
     m_Value: 1024
@@ -377,7 +377,7 @@ MonoBehaviour:
       m_Value: 0
     distortionMode:
       m_OverrideState: 1
-      m_Value: 0
+      m_Value: 1
     scrollOrientation:
       m_OverrideState: 1
       m_Value:
@@ -1244,7 +1244,7 @@ MonoBehaviour:
   active: 1
   skyType:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   cloudType:
     m_OverrideState: 1
     m_Value: 0
@@ -1265,10 +1265,10 @@ MonoBehaviour:
     m_Value: {x: 0, y: -6378.1, z: 0}
   windOrientation:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   windSpeed:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 5
   fogType:
     m_OverrideState: 1
     m_Value: 0

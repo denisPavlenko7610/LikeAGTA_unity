@@ -508,7 +508,7 @@ MonoBehaviour:
           sssQualityLevel: 0
           sssCustomSampleBudget: 20
           sssCustomDownsampleSteps: 0
-          msaaMode: 1
+          msaaMode: 8
           materialQuality: 0
         m_RealtimeReflection:
           bitDatas:
@@ -524,7 +524,7 @@ MonoBehaviour:
           sssQualityLevel: 0
           sssCustomSampleBudget: 20
           sssCustomDownsampleSteps: 0
-          msaaMode: 1
+          msaaMode: 8
           materialQuality: 0
     - rid: 6108018523616051218
       type: {class: HDRPDefaultVolumeProfileSettings, ns: UnityEngine.Rendering.HighDefinition, asm: Unity.RenderPipelines.HighDefinition.Runtime}

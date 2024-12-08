@@ -76,6 +76,7 @@ namespace LikeAGTA.Characters
             Save();
         }
 #endif
+        
         public void SetupPlayerData(PlayerData playerData)
         {
             _playerData = playerData;
