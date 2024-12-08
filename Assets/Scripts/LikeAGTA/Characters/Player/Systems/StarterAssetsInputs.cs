@@ -1,6 +1,6 @@
-using _Packages.RD_SimpleDI.Runtime.LifeCycle.Interfaces;
 using RD_SimpleDI.Runtime;
 using RD_SimpleDI.Runtime.LifeCycle;
+using RD_SimpleDI.Runtime.LifeCycle.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

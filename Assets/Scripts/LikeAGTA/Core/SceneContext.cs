@@ -1,11 +1,10 @@
-﻿using _Packages.RD_Save.Runtime;
-using DI;
-using DI.Attributes;
-using LikeAGTA.Characters;
+﻿using LikeAGTA.Characters;
 using LikeAGTA.Characters.Data;
 using LikeAGTA.Characters.SaveData;
 using LikeAGTA.Characters.UI;
 using LikeAGTA.Factory;
+using RD_Save.Runtime;
+using RD_SimpleDI.Runtime.DI;
 using RDTools;
 using UnityEngine;
 

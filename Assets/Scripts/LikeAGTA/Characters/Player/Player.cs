@@ -1,9 +1,9 @@
 ﻿using System;
-using _Packages.RD_Save.Runtime;
-using DI.Attributes;
 using LikeAGTA.Characters.SaveData;
 using RDTools.AutoAttach;
 using LikeAGTA.Systems.PickUpSystem;
+using RD_Save.Runtime;
+using RD_SimpleDI.Runtime.DI.Attributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

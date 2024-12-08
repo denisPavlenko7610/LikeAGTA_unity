@@ -1,8 +1,7 @@
-﻿using System;
-using _Packages.RD_SimpleDI.Runtime.LifeCycle.Interfaces;
-using DI.Attributes;
-using LikeAGTA.Systems.PickUpSystem;
+﻿using LikeAGTA.Systems.PickUpSystem;
+using RD_SimpleDI.Runtime.DI.Attributes;
 using RD_SimpleDI.Runtime.LifeCycle;
+using RD_SimpleDI.Runtime.LifeCycle.Interfaces;
 using TMPro;
 using UnityEngine;
 

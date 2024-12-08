@@ -1,5 +1,5 @@
-﻿using _Packages.RD_SimpleDI.Runtime.LifeCycle.Interfaces;
-using RD_SimpleDI.Runtime.LifeCycle;
+﻿using RD_SimpleDI.Runtime.LifeCycle;
+using RD_SimpleDI.Runtime.LifeCycle.Interfaces;
 using StarterAssets;
 using Unity.Cinemachine;
 using UnityEngine;

@@ -1,5 +1,5 @@
-﻿using DI;
-using LikeAGTA.Characters;
+﻿using LikeAGTA.Characters;
+using RD_SimpleDI.Runtime.DI;
 using UnityEngine;
 
 namespace LikeAGTA.Factory
