@@ -14,7 +14,7 @@ namespace LikeAGTA.Core
     public class SceneContext : MonoBehaviour
     {
         [SerializeField] private Transform _playerStarterPoint;
-        [SerializeField, Expandable] private PlayerDataSO _playerDataSO;
+        [SerializeField] private PlayerDataSO _playerDataSO;
         [SerializeField] private HUD _hudPrefab;
         
         private SaveSystem _saveSystem;
